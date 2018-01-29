@@ -5,6 +5,7 @@ import torch.backends.cudnn as cudnn
 import torchvision.models as models
 from torch.autograd import Variable
 
+
 class MobileNet(nn.Module):
     def __init__(self):
         super(MobileNet, self).__init__()
@@ -21,16 +22,16 @@ class MobileNet(nn.Module):
                 nn.Conv2d(inp, inp, 3, stride, 1, groups=inp, bias=False),
                 nn.BatchNorm2d(inp),
                 nn.ReLU(inplace=True),
-    
+
                 nn.Conv2d(inp, oup, 1, 1, 0, bias=False),
                 nn.BatchNorm2d(oup),
                 nn.ReLU(inplace=True),
             )
 
         self.model = nn.Sequential(
-            conv_bn(  3,  32, 2), 
-            conv_dw( 32,  64, 1),
-            conv_dw( 64, 128, 2),
+            conv_bn(3, 32, 2),
+            conv_dw(32, 64, 1),
+            conv_dw(64, 128, 2),
             conv_dw(128, 128, 1),
             conv_dw(128, 256, 2),
             conv_dw(256, 256, 1),
@@ -52,22 +53,26 @@ class MobileNet(nn.Module):
         x = self.fc(x)
         return x
 
+
 def speed(model, name):
     t0 = time.time()
-    input = torch.rand(1,3,224,224).cuda()
-    input = Variable(input, volatile = True)
+    input = torch.rand(1, 3, 224, 224).cuda()
+    input = Variable(input, volatile=True)
     t1 = time.time()
 
     model(input)
+    torch.cuda.synchronize()
     t2 = time.time()
 
     model(input)
+    torch.cuda.synchronize()
     t3 = time.time()
-    
+
     print('%10s : %f' % (name, t3 - t2))
 
+
 if __name__ == '__main__':
-    #cudnn.benchmark = True # This will make network slow ??
+    # cudnn.benchmark = True # This will make network slow ??
     resnet18 = models.resnet18().cuda()
     alexnet = models.alexnet().cuda()
     vgg16 = models.vgg16().cuda()

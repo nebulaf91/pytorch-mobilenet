@@ -28,7 +28,22 @@ Titan-X, batchsize = 1
 squeezenet : 0.003385
  mobilenet : 0.076977
 ```
-
+GTX-1080ti, batchsize = 16  (from [nebulaf91](https://github.com/nebulaf91))
+```
+  resnet18 : 0.008995
+   alexnet : 0.003605
+     vgg16 : 0.046771
+squeezenet : 0.010464
+ mobilenet : 0.010924
+```
+GTX-1080ti, batchsize = 1  (from [nebulaf91](https://github.com/nebulaf91))
+```
+  resnet18 : 0.002358
+   alexnet : 0.001373
+     vgg16 : 0.005438
+squeezenet : 0.001647
+ mobilenet : 0.001957
+```
 ---------
 
 ```
